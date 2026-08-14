@@ -1,0 +1,134 @@
+name: kucolorfulname
+version: ${project.version}
+main: cc.chlchun.kucolorfulname.KuColorfulNamePlugin
+loader: cc.chlchun.kucolorfulname.KuColorfulNamePluginLoader
+api-version: '26.2'
+folia-supported: true
+author: xiaole
+description: ${project.description}
+
+dependencies:
+  server:
+    PlaceholderAPI:
+      load: BEFORE
+      required: false
+      join-classpath: true
+
+permissions:
+  kucolorfulname.use:
+    default: true
+  kucolorfulname.admin:
+    default: op
+    children:
+      kucolorfulname.use: true
+      kucolorfulname.admin.gui: true
+      kucolorfulname.admin.grant: true
+      kucolorfulname.admin.revoke: true
+      kucolorfulname.admin.extend: true
+      kucolorfulname.admin.audit: true
+      kucolorfulname.admin.reload: true
+      kucolorfulname.admin.style-permission-bypass: true
+  kucolorfulname.admin.gui:
+    default: op
+  kucolorfulname.admin.grant:
+    default: op
+  kucolorfulname.admin.revoke:
+    default: op
+  kucolorfulname.admin.extend:
+    default: op
+  kucolorfulname.admin.audit:
+    default: op
+  kucolorfulname.admin.reload:
+    default: op
+  kucolorfulname.admin.style-permission-bypass:
+    default: op
+  kucolorfulname.group.default:
+    default: true
+  kucolorfulname.group.vip:
+    default: false
+  kucolorfulname.group.svip:
+    default: false
+  kucolorfulname.group.admin:
+    default: op
+  kucolorfulname.group.animated:
+    default: false
+  kucolorfulname.style.ruby:
+    default: false
+  kucolorfulname.style.amber:
+    default: false
+  kucolorfulname.style.mint:
+    default: false
+  kucolorfulname.style.crimson:
+    default: false
+  kucolorfulname.style.coral:
+    default: false
+  kucolorfulname.style.rose:
+    default: false
+  kucolorfulname.style.sakura:
+    default: false
+  kucolorfulname.style.tangerine:
+    default: false
+  kucolorfulname.style.lemon:
+    default: false
+  kucolorfulname.style.lime:
+    default: false
+  kucolorfulname.style.emerald:
+    default: false
+  kucolorfulname.style.jade:
+    default: false
+  kucolorfulname.style.teal:
+    default: false
+  kucolorfulname.style.cyan:
+    default: false
+  kucolorfulname.style.sky:
+    default: false
+  kucolorfulname.style.sapphire:
+    default: false
+  kucolorfulname.style.cobalt:
+    default: false
+  kucolorfulname.style.indigo:
+    default: false
+  kucolorfulname.style.violet:
+    default: false
+  kucolorfulname.style.orchid:
+    default: false
+  kucolorfulname.style.magenta:
+    default: false
+  kucolorfulname.style.pearl:
+    default: false
+  kucolorfulname.style.silver:
+    default: false
+  kucolorfulname.style.graphite:
+    default: false
+  kucolorfulname.style.obsidian:
+    default: false
+  kucolorfulname.style.aurora:
+    default: false
+  kucolorfulname.style.sunset:
+    default: false
+  kucolorfulname.style.ocean:
+    default: false
+  kucolorfulname.style.glacier:
+    default: false
+  kucolorfulname.style.forest:
+    default: false
+  kucolorfulname.style.meadow:
+    default: false
+  kucolorfulname.style.flame:
+    default: false
+  kucolorfulname.style.lava:
+    default: false
+  kucolorfulname.style.dawn:
+    default: false
+  kucolorfulname.style.twilight:
+    default: false
+  kucolorfulname.style.galaxy:
+    default: false
+  kucolorfulname.style.nebula:
+    default: false
+  kucolorfulname.style.candy:
+    default: false
+  kucolorfulname.style.watermelon:
+    default: false
+  kucolorfulname.style.rainbow:
+    default: false

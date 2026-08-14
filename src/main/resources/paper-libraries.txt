@@ -1,0 +1,5 @@
+# Maven coordinates resolved by KuColorfulNamePluginLoader before onEnable.
+org.xerial:sqlite-jdbc:${sqlite.version}
+com.mysql:mysql-connector-j:${mysql.version}
+org.mariadb.jdbc:mariadb-java-client:${mariadb.version}
+com.zaxxer:HikariCP:${hikaricp.version}

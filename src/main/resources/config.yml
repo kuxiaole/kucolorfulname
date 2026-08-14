@@ -1,0 +1,758 @@
+﻿# kucolorfulname | 作者：xiaole | Paper/Folia 26.2 | JDK 25
+# YAML 只能使用空格缩进。枚举值建议保持大写。
+# settings、groups、styles 可用 /kcn reload 重载；storage 修改后必须重启。
+
+# 存储类型：SQLITE（单服）、MYSQL（MySQL 8+）、MARIADB（MariaDB 10.6+）。
+# SQLite 文件：plugins/kucolorfulname/kucolorfulname.db
+# MySQL/MariaDB 缺少目标数据库时会自动创建；账号需要目标库的 CREATE 权限。
+storage:
+  type: SQLITE
+
+  # MySQL 8+。同一群组服应使用相同的 database 和 table-prefix。
+  mysql:
+    host: "127.0.0.1"
+    port: 3306
+    database: "kucolorfulname"
+    username: "root"
+    password: "change-me"
+
+    # 表前缀只允许字母、数字和下划线，最长 32 个字符。
+    table-prefix: "kucolorfulname_"
+
+    # DISABLED、PREFERRED、REQUIRED、VERIFY_CA、VERIFY_IDENTITY
+    ssl-mode: PREFERRED
+
+    # HikariCP 连接池与超时；没有明确需求时保持默认。
+    maximum-pool-size: 10
+    minimum-idle: 2
+    connection-timeout-ms: 10000
+    validation-timeout-ms: 5000
+    idle-timeout-ms: 600000
+    max-lifetime-ms: 1800000
+    keepalive-time-ms: 30000
+
+    # 网络读写超时（毫秒）；0 表示使用驱动默认值。
+    socket-timeout-ms: 30000
+
+    # 群组服缓存同步周期（秒）；0 表示关闭。在线玩家查询会均匀分散到整个周期。
+    synchronization-interval-seconds: 60
+
+  # MariaDB 10.6+，使用官方驱动；字段含义与 mysql 相同。
+  mariadb:
+    host: "127.0.0.1"
+    port: 3306
+    database: "kucolorfulname"
+    username: "root"
+    password: "change-me"
+    table-prefix: "kucolorfulname_"
+    # DISABLED、PREFERRED、REQUIRED、VERIFY_CA、VERIFY_IDENTITY
+    ssl-mode: PREFERRED
+    maximum-pool-size: 10
+    minimum-idle: 2
+    connection-timeout-ms: 10000
+    validation-timeout-ms: 5000
+    idle-timeout-ms: 600000
+    max-lifetime-ms: 1800000
+    keepalive-time-ms: 30000
+    socket-timeout-ms: 30000
+    synchronization-interval-seconds: 60
+
+# 通用设置
+settings:
+  # 是否同步修改 Tab 列表名。
+  apply-to-tab-list: true
+
+  # 授权过期与在线玩家权限刷新周期（秒），最小值为 5；玩家检查会均匀错开。
+  # 解锁来源失效后，最迟在本周期内恢复无颜色；所选样式 key 会保留，重新解锁后自动生效。
+  expiry-check-seconds: 30
+
+  animation:
+    # 动画刷新间隔。1 = 20 FPS；高人数服务器可改为 2（10 FPS）。
+    # 仅在至少一名在线玩家实际装备动态颜色时运行刷新任务。
+    refresh-ticks: 1
+
+    # Folia 26.2 将同一帧的所有 Tab 名字合并为每位观察者一个包。
+    nms-tab-batching: true
+
+
+# 权限组
+# 玩家只使用 priority 最高且有权限的权限组，不会合并多个权限组。
+# permission 为空的是兜底权限组，只能配置一个；仅在没有任何带权限的权限组匹配时使用，不参与 priority 竞争。
+# unlocked-styles：由该权限组配套解锁的样式 key；空列表表示不配套解锁任何颜色。
+# default-style：该权限组自动装备的单个样式 key；留空表示不自动装备。
+# 可用条件：当前最高权限组配套颜色 OR 样式独立权限 OR 有效限时授权。
+groups:
+  # 普通玩家兜底权限组。
+  default:
+    priority: 0
+    permission: ""
+    unlocked-styles: []
+    default-style: ""
+
+  # VIP：授予 kucolorfulname.group.vip，配套解锁全部 25 种纯色。
+  vip:
+    priority: 100
+    permission: "kucolorfulname.group.vip"
+    default-style: ruby
+    unlocked-styles:
+      - ruby
+      - amber
+      - mint
+      - crimson
+      - coral
+      - rose
+      - sakura
+      - tangerine
+      - lemon
+      - lime
+      - emerald
+      - jade
+      - teal
+      - cyan
+      - sky
+      - sapphire
+      - cobalt
+      - indigo
+      - violet
+      - orchid
+      - magenta
+      - pearl
+      - silver
+      - graphite
+      - obsidian
+
+  # SVIP：授予 kucolorfulname.group.svip，配套解锁全部 40 种颜色。
+  svip:
+    priority: 200
+    permission: "kucolorfulname.group.svip"
+    default-style: aurora
+    unlocked-styles:
+      - ruby
+      - amber
+      - mint
+      - crimson
+      - coral
+      - rose
+      - sakura
+      - tangerine
+      - lemon
+      - lime
+      - emerald
+      - jade
+      - teal
+      - cyan
+      - sky
+      - sapphire
+      - cobalt
+      - indigo
+      - violet
+      - orchid
+      - magenta
+      - pearl
+      - silver
+      - graphite
+      - obsidian
+      - aurora
+      - sunset
+      - ocean
+      - glacier
+      - forest
+      - meadow
+      - flame
+      - lava
+      - dawn
+      - twilight
+      - galaxy
+      - nebula
+      - candy
+      - watermelon
+      - rainbow
+
+  # 管理员权限组，默认授予 OP，配套解锁全部 40 种颜色。
+  admin:
+    priority: 1000
+    permission: "kucolorfulname.group.admin"
+    default-style: ""
+    unlocked-styles:
+      - ruby
+      - amber
+      - mint
+      - crimson
+      - coral
+      - rose
+      - sakura
+      - tangerine
+      - lemon
+      - lime
+      - emerald
+      - jade
+      - teal
+      - cyan
+      - sky
+      - sapphire
+      - cobalt
+      - indigo
+      - violet
+      - orchid
+      - magenta
+      - pearl
+      - silver
+      - graphite
+      - obsidian
+      - aurora
+      - sunset
+      - ocean
+      - glacier
+      - forest
+      - meadow
+      - flame
+      - lava
+      - dawn
+      - twilight
+      - galaxy
+      - nebula
+      - candy
+      - watermelon
+      - rainbow
+
+  # 动态专属权限组；不默认授予任何人。权重最高，避免被其他权限组覆盖。
+  animated:
+    priority: 2000
+    permission: "kucolorfulname.group.animated"
+    default-style: ""
+    unlocked-styles:
+      - ruby
+      - amber
+      - mint
+      - crimson
+      - coral
+      - rose
+      - sakura
+      - tangerine
+      - lemon
+      - lime
+      - emerald
+      - jade
+      - teal
+      - cyan
+      - sky
+      - sapphire
+      - cobalt
+      - indigo
+      - violet
+      - orchid
+      - magenta
+      - pearl
+      - silver
+      - graphite
+      - obsidian
+      - aurora
+      - sunset
+      - ocean
+      - glacier
+      - forest
+      - meadow
+      - flame
+      - lava
+      - dawn
+      - twilight
+      - galaxy
+      - nebula
+      - candy
+      - watermelon
+      - rainbow
+      - animated_neon_wave
+      - animated_rainbow_flow
+      - animated_aurora_pulse
+      - animated_sunset_chase
+      - animated_ocean_current
+      - animated_cotton_candy
+      - animated_magma_core
+      - animated_forest_breath
+      - animated_galaxy_drift
+      - animated_ice_shimmer
+      - animated_sakura_bloom
+      - animated_cyber_lime
+      - animated_royal_gold
+      - animated_void_flame
+      - animated_mint_lavender
+      - animated_red_alert
+
+# 颜色昵称样式
+# 一级节点名是样式 key，已投入使用后不要改名，否则旧授权无法匹配。
+# type：SOLID 需要 1 个颜色；GRADIENT、ANIMATED 至少需要 2 个颜色。
+# ANIMATED 可用 FLOW、RAINBOW、PULSE、FLASH；animation-period-ticks 是完整循环 tick 数。
+# colors 使用 "#RRGGBB"；decorations 可填 BOLD、ITALIC、UNDERLINED、
+# STRIKETHROUGH、OBFUSCATED；icon 使用 Bukkit Material 名称。
+# 单个样式独立权限使用 permission；替代权限使用 permissions: [权限A, 权限B]。
+# permissions 中任意一个权限满足即可独立解锁；没有样式权限时仍可通过权限组配套或限时授权解锁。
+# permission 与 permissions 可以同时存在，判定时会合并并去重。
+# 玩家仓库只显示当前可用样式，展示顺序与此处顺序一致。
+styles:
+  # 纯色样式（25 种）
+  # 三种解锁来源互相独立：当前最高权限组配套、样式独立权限、有效限时授权。
+  ruby:
+    display-name: "赤焰"
+    type: SOLID
+    colors: ["#FF4D4F"]
+    decorations: []
+    icon: RED_DYE
+    permission: "kucolorfulname.style.ruby"
+
+  amber:
+    display-name: "流金"
+    type: SOLID
+    colors: ["#F6BD16"]
+    decorations: []
+    icon: YELLOW_DYE
+    permission: "kucolorfulname.style.amber"
+
+  mint:
+    display-name: "薄荷"
+    type: SOLID
+    colors: ["#36CFC9"]
+    decorations: []
+    icon: CYAN_DYE
+    permission: "kucolorfulname.style.mint"
+
+  crimson:
+    display-name: "绯红"
+    type: SOLID
+    colors: ["#C62828"]
+    decorations: []
+    icon: REDSTONE
+    permission: "kucolorfulname.style.crimson"
+
+  coral:
+    display-name: "珊瑚"
+    type: SOLID
+    colors: ["#FF7F6A"]
+    decorations: []
+    icon: SALMON
+    permission: "kucolorfulname.style.coral"
+
+  rose:
+    display-name: "蔷薇"
+    type: SOLID
+    colors: ["#E91E63"]
+    decorations: []
+    icon: PINK_DYE
+    permission: "kucolorfulname.style.rose"
+
+  sakura:
+    display-name: "樱粉"
+    type: SOLID
+    colors: ["#FFB7C5"]
+    decorations: []
+    icon: CHERRY_LEAVES
+    permission: "kucolorfulname.style.sakura"
+
+  tangerine:
+    display-name: "橘光"
+    type: SOLID
+    colors: ["#FF8C2A"]
+    decorations: []
+    icon: ORANGE_DYE
+    permission: "kucolorfulname.style.tangerine"
+
+  lemon:
+    display-name: "柠光"
+    type: SOLID
+    colors: ["#FFF176"]
+    decorations: []
+    icon: GLOW_BERRIES
+    permission: "kucolorfulname.style.lemon"
+
+  lime:
+    display-name: "青柠"
+    type: SOLID
+    colors: ["#7ED957"]
+    decorations: []
+    icon: LIME_DYE
+    permission: "kucolorfulname.style.lime"
+
+  emerald:
+    display-name: "翠绿"
+    type: SOLID
+    colors: ["#2ECC71"]
+    decorations: []
+    icon: EMERALD
+    permission: "kucolorfulname.style.emerald"
+
+  jade:
+    display-name: "碧玉"
+    type: SOLID
+    colors: ["#00A86B"]
+    decorations: []
+    icon: GREEN_DYE
+    permission: "kucolorfulname.style.jade"
+
+  teal:
+    display-name: "深青"
+    type: SOLID
+    colors: ["#00897B"]
+    decorations: []
+    icon: WARPED_FUNGUS
+    permission: "kucolorfulname.style.teal"
+
+  cyan:
+    display-name: "晴青"
+    type: SOLID
+    colors: ["#00BCD4"]
+    decorations: []
+    icon: PRISMARINE_SHARD
+    permission: "kucolorfulname.style.cyan"
+
+  sky:
+    display-name: "天蓝"
+    type: SOLID
+    colors: ["#4FC3F7"]
+    decorations: []
+    icon: LIGHT_BLUE_DYE
+    permission: "kucolorfulname.style.sky"
+
+  sapphire:
+    display-name: "蓝晶"
+    type: SOLID
+    colors: ["#1565C0"]
+    decorations: []
+    icon: LAPIS_LAZULI
+    permission: "kucolorfulname.style.sapphire"
+
+  cobalt:
+    display-name: "钴蓝"
+    type: SOLID
+    colors: ["#2446A8"]
+    decorations: []
+    icon: BLUE_DYE
+    permission: "kucolorfulname.style.cobalt"
+
+  indigo:
+    display-name: "靛青"
+    type: SOLID
+    colors: ["#3F3D9B"]
+    decorations: []
+    icon: BLUE_ORCHID
+    permission: "kucolorfulname.style.indigo"
+
+  violet:
+    display-name: "紫罗兰"
+    type: SOLID
+    colors: ["#7E57C2"]
+    decorations: []
+    icon: PURPLE_DYE
+    permission: "kucolorfulname.style.violet"
+
+  orchid:
+    display-name: "兰紫"
+    type: SOLID
+    colors: ["#BA68C8"]
+    decorations: []
+    icon: ALLIUM
+    permission: "kucolorfulname.style.orchid"
+
+  magenta:
+    display-name: "品红"
+    type: SOLID
+    colors: ["#E040FB"]
+    decorations: []
+    icon: MAGENTA_DYE
+    permission: "kucolorfulname.style.magenta"
+
+  pearl:
+    display-name: "珍珠"
+    type: SOLID
+    colors: ["#F5F5F0"]
+    decorations: []
+    icon: QUARTZ
+    permission: "kucolorfulname.style.pearl"
+
+  silver:
+    display-name: "银辉"
+    type: SOLID
+    colors: ["#B0BEC5"]
+    decorations: []
+    icon: IRON_NUGGET
+    permission: "kucolorfulname.style.silver"
+
+  graphite:
+    display-name: "石墨"
+    type: SOLID
+    colors: ["#616161"]
+    decorations: []
+    icon: GRAY_DYE
+    permission: "kucolorfulname.style.graphite"
+
+  obsidian:
+    display-name: "曜石"
+    type: SOLID
+    colors: ["#2B2438"]
+    decorations: []
+    icon: OBSIDIAN
+    permission: "kucolorfulname.style.obsidian"
+
+  # 渐变样式（15 种）
+  aurora:
+    display-name: "极光"
+    type: GRADIENT
+    colors: ["#5B8FF9", "#61DDAA", "#F6BD16"]
+    decorations: []
+    icon: PRISMARINE_CRYSTALS
+    permission: "kucolorfulname.style.aurora"
+
+  sunset:
+    display-name: "晚霞"
+    type: GRADIENT
+    colors: ["#F4664A", "#FAAD14", "#9254DE"]
+    decorations: [BOLD]
+    icon: BLAZE_POWDER
+    permission: "kucolorfulname.style.sunset"
+
+  ocean:
+    display-name: "深海"
+    type: GRADIENT
+    colors: ["#00C6FF", "#0072FF"]
+    decorations: []
+    icon: HEART_OF_THE_SEA
+    permission: "kucolorfulname.style.ocean"
+
+  glacier:
+    display-name: "冰川"
+    type: GRADIENT
+    colors: ["#E0F7FA", "#80DEEA", "#4DD0E1"]
+    decorations: []
+    icon: BLUE_ICE
+    permission: "kucolorfulname.style.glacier"
+
+  forest:
+    display-name: "森语"
+    type: GRADIENT
+    colors: ["#A8E063", "#56AB2F", "#1B5E20"]
+    decorations: []
+    icon: OAK_SAPLING
+    permission: "kucolorfulname.style.forest"
+
+  meadow:
+    display-name: "原野"
+    type: GRADIENT
+    colors: ["#F9F871", "#5FD068", "#00A86B"]
+    decorations: []
+    icon: DANDELION
+    permission: "kucolorfulname.style.meadow"
+
+  flame:
+    display-name: "烈焰"
+    type: GRADIENT
+    colors: ["#FFE259", "#FFA751", "#E53935"]
+    decorations: [BOLD]
+    icon: FIRE_CHARGE
+    permission: "kucolorfulname.style.flame"
+
+  lava:
+    display-name: "熔岩"
+    type: GRADIENT
+    colors: ["#FF512F", "#F09819", "#DD2476"]
+    decorations: [BOLD]
+    icon: LAVA_BUCKET
+    permission: "kucolorfulname.style.lava"
+
+  dawn:
+    display-name: "晨曦"
+    type: GRADIENT
+    colors: ["#FFCC80", "#FF7043", "#EC407A"]
+    decorations: []
+    icon: SUNFLOWER
+    permission: "kucolorfulname.style.dawn"
+
+  twilight:
+    display-name: "暮光"
+    type: GRADIENT
+    colors: ["#355C7D", "#6C5B7B", "#C06C84"]
+    decorations: []
+    icon: ENDER_PEARL
+    permission: "kucolorfulname.style.twilight"
+
+  galaxy:
+    display-name: "星河"
+    type: GRADIENT
+    colors: ["#0F2027", "#2C5364", "#8E2DE2"]
+    decorations: [BOLD]
+    icon: END_CRYSTAL
+    permission: "kucolorfulname.style.galaxy"
+
+  nebula:
+    display-name: "星云"
+    type: GRADIENT
+    colors: ["#654EA3", "#A16AE8", "#EAAFC8"]
+    decorations: []
+    icon: AMETHYST_SHARD
+    permission: "kucolorfulname.style.nebula"
+
+  candy:
+    display-name: "糖霜"
+    type: GRADIENT
+    colors: ["#FF9A9E", "#FAD0C4", "#A18CD1"]
+    decorations: []
+    icon: COOKIE
+    permission: "kucolorfulname.style.candy"
+
+  watermelon:
+    display-name: "西瓜"
+    type: GRADIENT
+    colors: ["#FF5F6D", "#FFC371", "#43A047"]
+    decorations: []
+    icon: MELON_SLICE
+    permission: "kucolorfulname.style.watermelon"
+
+  rainbow:
+    display-name: "虹彩"
+    type: GRADIENT
+    colors: ["#FF4D4F", "#FF8C2A", "#F6BD16", "#52C41A", "#1890FF", "#722ED1"]
+    decorations: [BOLD]
+    icon: NETHER_STAR
+    permission: "kucolorfulname.style.rainbow"
+
+  # 动态样式（16 种）。默认没有独立权限，只能由 animated 权限组或限时授权解锁。
+  animated_neon_wave:
+    display-name: "霓虹波浪"
+    type: ANIMATED
+    animation-mode: FLOW
+    animation-period-ticks: 50
+    colors: ["#00F5FF", "#FF00E6", "#7A00FF"]
+    decorations: [BOLD]
+    icon: ECHO_SHARD
+
+  animated_rainbow_flow:
+    display-name: "流动虹彩"
+    type: ANIMATED
+    animation-mode: RAINBOW
+    animation-period-ticks: 60
+    colors: ["#FF3B30", "#FFCC00", "#34C759", "#00C7FF", "#5856D6", "#AF52DE"]
+    decorations: [BOLD]
+    icon: NETHER_STAR
+
+  animated_aurora_pulse:
+    display-name: "脉动极光"
+    type: ANIMATED
+    animation-mode: PULSE
+    animation-period-ticks: 70
+    colors: ["#00FFA3", "#4CC9F0", "#B517FF"]
+    decorations: []
+    icon: PRISMARINE_CRYSTALS
+
+  animated_sunset_chase:
+    display-name: "追光晚霞"
+    type: ANIMATED
+    animation-mode: FLOW
+    animation-period-ticks: 50
+    colors: ["#FF4D6D", "#FF9E00", "#FFD166"]
+    decorations: [BOLD]
+    icon: BLAZE_POWDER
+
+  animated_ocean_current:
+    display-name: "潮汐流光"
+    type: ANIMATED
+    animation-mode: FLOW
+    animation-period-ticks: 60
+    colors: ["#00E5FF", "#0077FF", "#001D6E"]
+    decorations: []
+    icon: HEART_OF_THE_SEA
+
+  animated_cotton_candy:
+    display-name: "流心糖霜"
+    type: ANIMATED
+    animation-mode: FLOW
+    animation-period-ticks: 80
+    colors: ["#FF8FAB", "#FFD6E0", "#BDE0FE", "#A2D2FF"]
+    decorations: []
+    icon: COOKIE
+
+  animated_magma_core:
+    display-name: "熔火核心"
+    type: ANIMATED
+    animation-mode: PULSE
+    animation-period-ticks: 40
+    colors: ["#FFF200", "#FF6B00", "#C1121F", "#3D0000"]
+    decorations: [BOLD]
+    icon: MAGMA_CREAM
+
+  animated_forest_breath:
+    display-name: "森灵呼吸"
+    type: ANIMATED
+    animation-mode: PULSE
+    animation-period-ticks: 80
+    colors: ["#CCFF33", "#38B000", "#006400"]
+    decorations: []
+    icon: SPORE_BLOSSOM
+
+  animated_galaxy_drift:
+    display-name: "星河漂移"
+    type: ANIMATED
+    animation-mode: FLOW
+    animation-period-ticks: 100
+    colors: ["#F72585", "#7209B7", "#3A0CA3", "#4361EE"]
+    decorations: [BOLD]
+    icon: END_CRYSTAL
+
+  animated_ice_shimmer:
+    display-name: "冰晶闪烁"
+    type: ANIMATED
+    animation-mode: FLASH
+    animation-period-ticks: 40
+    colors: ["#FFFFFF", "#B8F2FF", "#5EDFFF", "#168AAD"]
+    decorations: []
+    icon: BLUE_ICE
+
+  animated_sakura_bloom:
+    display-name: "樱华流转"
+    type: ANIMATED
+    animation-mode: PULSE
+    animation-period-ticks: 70
+    colors: ["#FFF0F5", "#FFB7C5", "#FF5D8F", "#C9184A"]
+    decorations: []
+    icon: CHERRY_LEAVES
+
+  animated_cyber_lime:
+    display-name: "赛博青柠"
+    type: ANIMATED
+    animation-mode: FLOW
+    animation-period-ticks: 40
+    colors: ["#D7FF00", "#39FF14", "#00F5D4", "#00BBF9"]
+    decorations: [BOLD]
+    icon: LIME_DYE
+
+  animated_royal_gold:
+    display-name: "流光鎏金"
+    type: ANIMATED
+    animation-mode: FLOW
+    animation-period-ticks: 50
+    colors: ["#FFF3B0", "#FFD166", "#D4A017", "#7F4F24"]
+    decorations: [BOLD]
+    icon: GOLD_INGOT
+
+  animated_void_flame:
+    display-name: "虚空魔焰"
+    type: ANIMATED
+    animation-mode: PULSE
+    animation-period-ticks: 45
+    colors: ["#FF00FF", "#7B2CBF", "#240046", "#03071E"]
+    decorations: [BOLD]
+    icon: CRYING_OBSIDIAN
+
+  animated_mint_lavender:
+    display-name: "薄荷薰衣草"
+    type: ANIMATED
+    animation-mode: FLOW
+    animation-period-ticks: 90
+    colors: ["#B8F2E6", "#AED9E0", "#CDB4DB", "#FFC8DD"]
+    decorations: []
+    icon: ALLIUM
+
+  animated_red_alert:
+    display-name: "赤色警报"
+    type: ANIMATED
+    animation-mode: FLASH
+    animation-period-ticks: 20
+    colors: ["#FFFFFF", "#FF4D4D", "#B00020", "#300000"]
+    decorations: [BOLD]
+    icon: REDSTONE_BLOCK

@@ -1,0 +1,214 @@
+# 可编辑菜单。文本支持 MiniMessage，槽位从 0 开始。
+# player-home 是入口，player 是已解锁列表，player-locked 是未解锁列表。
+player-home:
+  size: 27
+  title: "<gradient:#00D4FF:#7C3AED:#FF3D81><bold>✦ 玩家颜色仓库 ✦</bold></gradient>"
+  style-slots: []
+  buttons:
+    unlocked:
+      slot: 11
+      material: LIME_DYE
+      name: "<gradient:#34D399:#22C55E><bold>已解锁颜色</bold></gradient>"
+      lore:
+        - "<gray>当前可使用 <white>%count%</white> 种颜色"
+        - "<green>点击查看"
+    preview:
+      slot: 13
+      material: PLAYER_HEAD
+      name: "<gradient:#22D3EE:#A78BFA><bold>当前昵称预览</bold></gradient>"
+      lore:
+        - "<gray>显示：<reset>%nickname%"
+        - "<gray>样式：<reset>%style%"
+    locked:
+      slot: 15
+      material: GRAY_DYE
+      name: "<gradient:#94A3B8:#64748B><bold>未解锁颜色</bold></gradient>"
+      lore:
+        - "<gray>尚未解锁 <white>%count%</white> 种颜色"
+        - "<yellow>点击查看"
+    disable:
+      slot: 22
+      material: MILK_BUCKET
+      name: "<gradient:#FF6B6B:#FFB347><bold>卸下彩色昵称</bold></gradient>"
+      lore:
+        - "<gray>恢复为白色默认玩家名"
+        - "<dark_gray>不会删除已解锁的颜色"
+    close:
+      slot: 26
+      material: BARRIER
+      name: "<red><bold>关闭菜单</bold>"
+  texts:
+    preview-none: "<white>未启用"
+
+player:
+  size: 54
+  title: "<gradient:#34D399:#22D3EE><bold>✦ 已解锁颜色 ✦</bold></gradient>"
+  style-slots: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44]
+  buttons:
+    disable:
+      slot: 45
+      material: MILK_BUCKET
+      name: "<gradient:#FF6B6B:#FFB347><bold>卸下彩色昵称</bold></gradient>"
+      lore:
+        - "<gray>恢复为默认玩家名"
+        - "<dark_gray>不会删除已拥有的颜色"
+    home:
+      slot: 46
+      material: COMPASS
+      name: "<gradient:#22D3EE:#A78BFA><bold>返回颜色仓库</bold></gradient>"
+      lore:
+        - "<gray>返回已解锁与未解锁分类"
+    preview:
+      slot: 47
+      material: PLAYER_HEAD
+      name: "<gradient:#22D3EE:#A78BFA><bold>当前昵称预览</bold></gradient>"
+      lore:
+        - "<gray>显示：<reset>%nickname%"
+        - "<gray>样式：<reset>%style%"
+    previous:
+      slot: 48
+      material: ARROW
+      name: "<yellow><bold>上一页</bold>"
+      lore:
+        - "<dark_gray>查看前面的颜色样式"
+    info:
+      slot: 49
+      material: NETHER_STAR
+      name: "<gradient:#34D399:#22D3EE><bold>仓库概览</bold></gradient>"
+      lore:
+        - "<gray>%info%"
+    next:
+      slot: 50
+      material: ARROW
+      name: "<yellow><bold>下一页</bold>"
+      lore:
+        - "<dark_gray>查看更多颜色样式"
+    close:
+      slot: 53
+      material: BARRIER
+      name: "<red><bold>关闭菜单</bold>"
+  empty:
+    slot: 22
+    material: GRAY_DYE
+    name: "<gradient:#9CA3AF:#D1D5DB><bold>暂无可用颜色</bold></gradient>"
+    lore:
+      - "<gray>请先解锁或获得一种颜色"
+  texts:
+    style-preview: "<gray>昵称预览："
+    style-type: "<dark_gray>样式类型：<white>%type%"
+    state-active: "<gradient:#22D3EE:#A78BFA><bold>● 正在使用</bold></gradient>"
+    state-available: "<green>● 已解锁"
+    action-select: "<yellow>左键点击切换"
+    preview-none: "<white>未启用"
+    info: "已解锁 %count% 种 · 第 %page% 页"
+
+player-locked:
+  size: 54
+  title: "<gradient:#F59E0B:#EF4444><bold>✦ 未解锁颜色 ✦</bold></gradient>"
+  style-slots: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44]
+  buttons:
+    disable:
+      slot: 45
+      material: MILK_BUCKET
+      name: "<gradient:#FF6B6B:#FFB347><bold>卸下彩色昵称</bold></gradient>"
+      lore:
+        - "<gray>恢复为白色默认玩家名"
+        - "<dark_gray>不会删除已解锁的颜色"
+    home:
+      slot: 46
+      material: COMPASS
+      name: "<gradient:#22D3EE:#A78BFA><bold>返回颜色仓库</bold></gradient>"
+      lore:
+        - "<gray>返回已解锁与未解锁分类"
+    preview:
+      slot: 47
+      material: PLAYER_HEAD
+      name: "<gradient:#22D3EE:#A78BFA><bold>当前昵称预览</bold></gradient>"
+      lore:
+        - "<gray>显示：<reset>%nickname%"
+        - "<gray>样式：<reset>%style%"
+    previous:
+      slot: 48
+      material: ARROW
+      name: "<yellow><bold>上一页</bold>"
+      lore:
+        - "<dark_gray>查看前面的未解锁颜色"
+    info:
+      slot: 49
+      material: NETHER_STAR
+      name: "<gradient:#F59E0B:#EF4444><bold>未解锁概览</bold></gradient>"
+      lore:
+        - "<gray>%info%"
+    next:
+      slot: 50
+      material: ARROW
+      name: "<yellow><bold>下一页</bold>"
+      lore:
+        - "<dark_gray>查看更多未解锁颜色"
+    close:
+      slot: 53
+      material: BARRIER
+      name: "<red><bold>关闭菜单</bold>"
+  empty:
+    slot: 22
+    material: LIME_DYE
+    name: "<gradient:#34D399:#22C55E><bold>全部颜色均已解锁</bold></gradient>"
+    lore:
+      - "<gray>这里暂时没有未解锁颜色"
+  texts:
+    style-preview: "<gray>昵称预览："
+    style-type: "<dark_gray>样式类型：<white>%type%"
+    state-locked: "<red>● 未解锁"
+    unlock-permissions: "<gray>样式独立权限：<white>%permissions%"
+    unlock-grant: "<gray>限时路径：<white>有效管理员授权"
+    unlock-hint: "<dark_gray>解锁：最高权限组配套 / 独立权限 / 有效限时授权"
+    preview-none: "<white>未启用"
+    info: "未解锁 %count% 种 · 第 %page% 页"
+
+admin:
+  size: 54
+  title: "<gradient:#F59E0B:#EC4899><bold>✦ 昵称管理 · %player%</bold></gradient>"
+  style-slots: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44]
+  buttons:
+    audit:
+      slot: 47
+      material: WRITABLE_BOOK
+      name: "<gradient:#F59E0B:#F97316><bold>最近操作记录</bold></gradient>"
+      lore:
+        - "<gray>查看最近 10 条审计记录"
+    previous:
+      slot: 48
+      material: ARROW
+      name: "<yellow><bold>上一页</bold>"
+      lore:
+        - "<dark_gray>查看前面的颜色样式"
+    info:
+      slot: 49
+      material: NETHER_STAR
+      name: "<gradient:#F59E0B:#EC4899><bold>管理概览</bold></gradient>"
+      lore:
+        - "<gray>%info%"
+    next:
+      slot: 50
+      material: ARROW
+      name: "<yellow><bold>下一页</bold>"
+      lore:
+        - "<dark_gray>查看更多颜色样式"
+    close:
+      slot: 53
+      material: BARRIER
+      name: "<red><bold>关闭菜单</bold>"
+  texts:
+    style-preview: "<gray>预览："
+    style-type: "<dark_gray>类型：%type%"
+    permission: "<dark_gray>样式独立权限：<white>%permissions%"
+    permission-none: "<dark_gray>样式独立权限：未配置"
+    grant-none: "<gray>单独授权：无"
+    grant-remaining: "<yellow>单独授权剩余：%duration%"
+    state-active: "<gradient:#22D3EE:#A78BFA><bold>● 当前选择</bold></gradient>"
+    action-grant: "<green>左键：授予 7 天"
+    action-extend: "<green>左键：续期 7 天"
+    action-grant-long: "<yellow>Shift+左键：授予 30 天"
+    action-extend-long: "<yellow>Shift+左键：续期 30 天"
+    action-revoke: "<red>右键：撤销"
+    info: "全部 %count% 种 · 限时授权 %grants% 个 · 第 %page% 页"
