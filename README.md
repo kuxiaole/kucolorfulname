@@ -2,9 +2,6 @@
 
 当前版本：`1.3.0`
 
-kucolorfulname 是由 xiaole 开发的 Paper/Folia 26.2 颜色昵称仓库插件，使用 JDK 25。
-
-服主安装、配置和日常管理请阅读 [使用文档](使用文档.md)，版本变更见 [更新日志](CHANGELOG.md)。
 
 ## Folia 26.2 兼容性
 
